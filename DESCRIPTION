@@ -1,12 +1,22 @@
 Package: LWPTrends
-Title: What the Package Does (One Line, Title Case)
+Title: Undertake Water Quality Trend Analysis
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Caroline", "Fraser", , "caroline@landwaterpeople.co.nz", role = c("aut", "cre"))
+Description: These functions were developed from scratch to provide up to date methods
+  to evaluate trends using non-parametric methods based on the Mann-Kendall correlation
+  coefficient and the Theil–Sen estimator.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2.9000
+Imports: 
+    gam,
+    gridExtra,
+    lubridate,
+    NADA,
+    plyr,
+    tidyr,
+    viridis
+URL: https://github.com/isaacbain/LWPTrends
+BugReports: https://github.com/isaacbain/LWPTrends/issues
