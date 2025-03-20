@@ -322,43 +322,43 @@ The first step is to add a column called myDate that represents the date
 of each observation as a vector of class “Date”. This is achieved for
 the above data (which are a data frame called WQData) with following
 command:
-WQData_Ex1a$myDate <- as.Date(as.character(WQData_Ex1a$sdate),"%Y-%m-%d")
-Note, the format "%Y-%m-%d"will need to be adjusted to match the format
-of the user input data.
+
+`WQData_Ex1a$myDate <- as.Date(as.character(WQData_Ex1a$sdate),"%Y-%m-%d")`
+
+*Note, the format "%Y-%m-%d"will need to be adjusted to match the format
+of the user input data.*
 
 ### Adding additional date labels
 
 Additional date information used by the subsequent trend functions is
-added to the data with the function GetMoreDateInfo(). This function
-uses myDate and has an optional argument firstMonth that can be used to
-choose an alternative start month for the analysis (i.e., first month=7
-would provide time increments that start in July and output a “custom
-year” (or water-year) that starts in July, the default is that the year
-starts in January). The function also provides additional columns (date
-metadata) describing the months, 2-months (BiMonth), quarters, twice
-annual (BiAnn), and
+added to the data with the function `GetMoreDateInfo()`. This function
+uses `myDate` and has an optional argument `firstMonth` that can be used
+to choose an alternative start month for the analysis (i.e.,
+`first month=7` would provide time increments that start in July and
+output a “custom year” (or water-year) that starts in July, the default
+is that the year starts in January). The function also provides
+additional columns (date metadata) describing the months, 2-months
+(`BiMonth`), quarters, twice annual (`BiAnn`), and years – these are
+required for the analysis, and are common choices for the time increment
+or season of the dataset. The additional time increment options are all
+started at the start month and are labelled based on the start and end
+month of the increment (i.e., quarters might be: Jan.to.Mar, Apr.to.Jun;
+Jul.to.Sept; Oct.to.Dec). In the 2502 release, this function now
+generates a default estimate of the time increment of the data
+(`TimeIncr`), based on a user defined quantile for the spacing between
+observations. The 2502 version also includes a function that looks for
+months that have two or more observations in combination with a month
+before or after that month that is missing an observation. Where the
+previous month has a missing observation, the first observation is
+assigned metadata associated with the previous month, and where the
+following month has a missing observation, the last observation is
+assigned metadata associated with the following month. The observations
+retain the original date for use in the SenSlope evaluation. The date
+metadata columns in the output are factors (e.g. BiMonth, Qtr, BiAnn).
+If the year is shifted, the factor levels for these additional columns
+are also shifted (this is useful for plotting purposes later).
 
-years – these are required for the analysis, and are common choices for
-the time increment or season of the dataset. The additional time
-increment options are all started at the start month and are labelled
-based on the start and end month of the increment (i.e., quarters might
-be: Jan.to.Mar, Apr.to.Jun; Jul.to.Sept; Oct.to.Dec). In the 2502
-release, this function now generates a default estimate of the time
-increment of the data (TimeIncr), based on a user defined quantile for
-the spacing between observations. The 2502 version also includes a
-function that looks for months that have two or more observations in
-combination with a month before or after that month that is missing an
-observation. Where the previous month has a missing observation, the
-first observation is assigned metadata associated with the previous
-month, and where the following month has a missing observation, the last
-observation is assigned metadata associated with the following month.
-The observations retain the original date for use in the SenSlope
-evaluation. The date metadata columns in the output are factors (e.g.
-BiMonth, Qtr, BiAnn). If the year is shifted, the factor levels for
-these additional columns are also shifted (this is useful for plotting
-purposes later).
-
-WQData_Ex1b\<-GetMoreDateInfo(WQData_Ex1b,firstMonth = 7)
+`WQData_Ex1b<-GetMoreDateInfo(WQData_Ex1b,firstMonth = 7)`
 
 ### Time increments
 
@@ -369,10 +369,10 @@ multiple of) the time increment. See 4.1.2 for details about selecting
 an appropriate Season. The default time increment is defined by the
 GetMoreDateInfo function, but the user can override this, e.g.,:
 
-WQData_Ex1b$TimeIncr<-WQData_Ex1b$Month
+`WQData_Ex1b$TimeIncr<-WQData_Ex1b$Month`
 
-Note, the time-increment must be a factor. Any user-defined
-time-increment can be analysed.
+*Note, the time-increment must be a factor. Any user-defined
+time-increment can be analysed.*
 
 ### Processing Censored Data
 
@@ -380,8 +380,11 @@ The next step assumes that the water quality measures contain less than
 and greater than signs that signify the data are censored (below
 detection limit is “\<” and above the “reporting limit” “\>”). These
 must be converted to their face values + information concerning
-censoring. This is achieved with the function RemoveAlphaDetect() as
-follows: WQData_Ex1b \<- RemoveAlphaDetect(WQData_Ex1b,ColToUse="Value")
+censoring. This is achieved with the function `RemoveAlphaDetect()` as
+follows:
+
+`WQData_Ex1b <- RemoveAlphaDetect(WQData_Ex1b,ColToUse="Value")`
+
 This output is a data frame with the original dataset plus three
 additional columns. The columns additional columns represent the face
 value of the water quality measures (named RawValue), a logical
