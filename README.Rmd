@@ -437,8 +437,8 @@ shown with months on the x-axis and calendar years of the y-axis. This
 can assist with visualising the sampling frequency and any changes in
 frequency over time. All four plots can be shown together with the
 following command:
-ggarrange(Out1a[[3]][[1]],ggarrange(Out1a[[3]][[2]],Out1a[[3]][[3]],Out1a[[3]][[4]],nr
-ow=1,align="h"),nrow=2)
+
+`ggarrange(Out1a[[3]][[1]],ggarrange(Out1a[[3]][[2]],Out1a[[3]][[3]],Out1a[[3]][[4]],nr ow=1,align="h"),nrow=2)`
 
 #### Season and Seasonality Test
 
@@ -492,8 +492,7 @@ section. The output is a data frame of the test results. P is the
 two-tail p-value from the Mann Kendall test, C is the confidence in the
 trend direction, and Cd is the confidence that the trend is decreasing.
 
-Trend1b\<-NonSeasonalTrendAnalysis(WQData_Ex1b,mymain="Ex 1b Raw Trend",
-Year="CustomYear",do.plot=T);Trend1b[[1]]
+`Trend1b<-NonSeasonalTrendAnalysis(WQData_Ex1b,mymain="Ex 1b Raw Trend", Year="CustomYear",do.plot=T);Trend1b[[1]]`
 
 The NonSeasonalTrendAnalysis () function is a master function that calls
 both the MannKendall() and SenSlope() functions. Each of these functions
@@ -535,9 +534,12 @@ lack of sufficient resolution of the measurement method (i.ee, the
 smallest detectable change that the testing method can accurately
 identify). Assuming the measurement resolution is fit for purpose, we
 generally would recommend that the results with any of these warnings
-are still used. "WARNING: Sen slope based on two censored values" This
-message occurs when the pair of observations that produce the median
-inter-observation slope are both censored. This can be \> or \<
+are still used.
+
+**"WARNING: Sen slope based on two censored values"**
+
+This message occurs when the pair of observations that produce the
+median inter-observation slope are both censored. This can be \> or \<
 censoring, although generally, we find that this is a pair of \<
 censored values. This is common at sites with high levels of censored
 data. The returned Sen slope will be zero, and this warning recognises
@@ -549,27 +551,33 @@ where the Sen slope is reported as zero and UCI and LCI are also zero,
 indicate that most observations are censored. In these cases, the ‘true’
 Sen slope, UCI and LCI would be non-zero values if the resolution of the
 measurement method were higher. Generally, in these cases the direction
-of trend is also uncertain. "WARNING: Sen slope influenced by censored
-values" This message occurs when the one of the two observations that
-produces the median inter- observation slope is censored. This can be \>
-or \< censoring, although generally, we find that this is associated
-with a \< censored value. This warning generally occurs when there are
-high levels of censoring. This warning recognises that the estimate of
-the Sen slope uncertainty does not account for the imprecision
-associated with calculating Sen slopes using values that are below the
-detection limit. Theoretically, this imprecision adds to the uncertainty
-of the Sen slope estimate, but this is not accounted for in the
-calculations. If the detection limit is small relative to the range of
-observation values, the additional uncertainty will be small. "WARNING:
-Sen slope based on tied non-censored values" This message occurs when
-the pair of observations that produce the median inter-observation slope
-are the same but are not censored. In this case, the Sen Slope is
-reported as zero. This is common at sites where the observations
-comprise many repeated values, (and this is generally due to low
-resolution of the measurement method). The returned Sen slope is not the
-‘true’ Sen slope due to insufficient measurement resolution. The ‘true’
-Sen slope would be a small value that cannot be evaluated due to the
-lack of sufficient resolution of the measurement method.
+of trend is also uncertain.
+
+**"WARNING: Sen slope influenced by censored values"**
+
+This message occurs when the one of the two observations that produces
+the median inter- observation slope is censored. This can be \> or \<
+censoring, although generally, we find that this is associated with a \<
+censored value. This warning generally occurs when there are high levels
+of censoring. This warning recognises that the estimate of the Sen slope
+uncertainty does not account for the imprecision associated with
+calculating Sen slopes using values that are below the detection limit.
+Theoretically, this imprecision adds to the uncertainty of the Sen slope
+estimate, but this is not accounted for in the calculations. If the
+detection limit is small relative to the range of observation values,
+the additional uncertainty will be small.
+
+**"WARNING: Sen slope based on tied non-censored values"**
+
+This message occurs when the pair of observations that produce the
+median inter-observation slope are the same but are not censored. In
+this case, the Sen Slope is reported as zero. This is common at sites
+where the observations comprise many repeated values, (and this is
+generally due to low resolution of the measurement method). The returned
+Sen slope is not the ‘true’ Sen slope due to insufficient measurement
+resolution. The ‘true’ Sen slope would be a small value that cannot be
+evaluated due to the lack of sufficient resolution of the measurement
+method.
 
 ## Seasonal Trend Analysis
 
@@ -593,8 +601,8 @@ variability associated with seasonality, but retaining as many
 observations as possible. The function handles the censored values as
 described in Handling Censored Values section. The output is a data
 frame of the test results.
-Trend_ex2\<-SeasonalTrendAnalysis(WQData_Ex2,mymain="Ex 1a Raw
-Trend",do.plot=T)
+
+`Trend_ex2<-SeasonalTrendAnalysis(WQData_Ex2,mymain="Ex 1a Raw Trend",do.plot=T)`
 
 The same additional outputs as described for the Sen slope are also
 provided for the seasonal Sen slope. Note, there are generally more not
@@ -614,16 +622,18 @@ used in conjunction with ddply or dplyr to assist with this task:
 doMyTrends_v2502. It can also be used with a single site x variable
 timeseries. Before using this function, it is still necessary to clean
 data appropriately, and to run the functions GetMoreDateInfo and
-RemoveAlphaDetect. The function then executes the following steps: 1.
-InspectTrendData a. Cuts dataset down to specified trend period b. Adds
-on a column TimeIncr to describe the highest frequency time increment
-that meets the minimum data requirements 2. GetSeason a. Evaluates
-whether data are seasonal and adds the column SeasIncr to the data 3.
-Run either NonSeasonlTrendAnalysis or SeasonalTrendAnalysis My10yTrends
-\<- ddply(RegionExData, c("siteID", "analyte"), function(x) {
-doMyTrends_v2502(x, Year = "CustomYear", propIncrTol=0.9,
-propYearTol=0.9,TrendPeriod=10, EndYear=2020, ValuesToUse="RawValue",
-UseMidObs=TRUE, do.plot=FALSE)}, .progress = "win")
+RemoveAlphaDetect. The function then executes the following steps:
+
+1.   InspectTrendData a. Cuts dataset down to specified trend period b.
+    Adds on a column TimeIncr to describe the highest frequency time
+    increment that meets the minimum data requirements
+
+2.   GetSeason a. Evaluates whether data are seasonal and adds the
+    column SeasIncr to the data
+
+3.   Run either NonSeasonlTrendAnalysis or SeasonalTrendAnalysis
+
+`My10yTrends <- ddply(RegionExData, c("siteID", "analyte"), function(x) { doMyTrends_v2502(x, Year = "CustomYear", propIncrTol=0.9, propYearTol=0.9,TrendPeriod=10, EndYear=2020, ValuesToUse="RawValue", UseMidObs=TRUE, do.plot=FALSE)}, .progress = "win")`
 
 ## Covariate adjustment
 
@@ -660,22 +670,19 @@ based on raw values. The function returns a data frame with the adjusted
 values (regression residuals) for each of the models. The column that
 represents the chosen model in this data frame is then used in any of
 the functions above. The adjustment is achieved with following command:
-FlowAdjusted\<-AdjustValues(WQData_Ex1a, method = c("Gam", "LogLog",
-"LOESS"), ValuesToAdjust = "RawValue", Covariate = "finalQ", Span =
-c(0.7), do.plot =T, plotpval=T, mymain="Example 1a") The adjusted output
-is shown on Figure 12 and the plots are shown in Figure 13.
-head(FlowAdjusted)
+
+`FlowAdjusted<-AdjustValues(WQData_Ex1a, method = c("Gam", "LogLog", "LOESS"), ValuesToAdjust = "RawValue", Covariate = "finalQ", Span = c(0.7), do.plot =T, plotpval=T, mymain="Example 1a")`
+
+The adjusted output is shown on Figure 12 and the plots are shown in
+Figure 13. head(FlowAdjusted)
 
 In the above example the LOESS model might be judged to be the most
 appropriate, although no model is particularly robust in this case. The
 adjusted values that are output by the GetAdjustment function are used
 in any of the above four trend analysis functions with following
 commands as follows:
-WQData_Ex1a\<-merge(WQData_Ex1a,FlowAdjusted[,c(myDate,LOESS0.7)])
-Trend_ex1aFA\<-SeasonalTrendAnalysis(WQData_Ex1a,
-ValuesToUse="LOESS0.7", RawValues=FALSE,
-ValuesToUseforMedian="RawValue", mymain="Example 1a: Flow Adjusted
-Trend", do.plot=T)
+
+`WQData_Ex1a<-merge(WQData_Ex1a,FlowAdjusted[,c(myDate,LOESS0.7)]) Trend_ex1aFA<-SeasonalTrendAnalysis(WQData_Ex1a, ValuesToUse="LOESS0.7", RawValues=FALSE, ValuesToUseforMedian="RawValue", mymain="Example 1a: Flow Adjusted Trend", do.plot=T)`
 
 ## Trend Aggregation
 
@@ -691,8 +698,8 @@ aggregated confidence that the trend direction is decreasing. For each
 site and variable, the confidence that a trend is decreasing (or its
 complement; increasing) is expressed as a confidence category. The
 confidence categories (Table 1) can be assigned using the function
-AssignConfCat(): AllTrends10FA\$DirectionConf \<-
-AssignConfCat(x=AllTrends10FA,CatType=”Decrease”)
+
+`AssignConfCat(): AllTrends10FA$DirectionConf <- AssignConfCat(x=AllTrends10FA,CatType=”Decrease”)`
 
 Functionality also exists to use to categorise confidence that trend
 direction is improving. Each site trend is assigned to a category by
@@ -708,9 +715,8 @@ used. Each site/variable combination can then be assigned to a
 confidence in trend direction category according to its evaluated
 confidence of improvement. An option also exists to provide a simpler
 categorisation, following the categories shown in Table 1.
-AllTrends10FA\$ImproveConf \<-
-AssignConfCat(x=AllTrends10FA,CatType=”Improve”,Reverse=”MCI”,excl=”pH”,nCat=”Sim
-ple”)
+
+`AllTrends10FA$ImproveConf <- AssignConfCat(x=AllTrends10FA,CatType=”Improve”,Reverse=”MCI”,excl=”pH”,nCat=”Simple”)`
 
 The categorical levels of confidence for all sites and variables are
 then summarised using a colour coded bar chart (Figure 15). See the
@@ -746,12 +752,7 @@ improvement (i.e., improving/degrading).
     aggregate trend is being referred to, the upper-case tau is used
     (Τ).
 
-TauRegional \<- dlply(My10yTrends,.(analyte), function(y) getTAU(x=y,
-obs=RegionExData[RegionExData$analyte==y$analyte[1],],
-SiteNameCol="siteID", VarNameCol="analyte", ValuesToUse = "RawValue",
-Year = "CustomYear", UseMidObs=T)) Extract summary table:
-TauRegionalSummary \<- ldply(TauRegional, function(x)
-return(x\$SummaryResults))
+`TauRegional <- dlply(My10yTrends,.(analyte), function(y) getTAU(x=y, obs=RegionExData[RegionExData$analyte==y$analyte[1],], SiteNameCol="siteID", VarNameCol="analyte", ValuesToUse = "RawValue", Year = "CustomYear", UseMidObs=T)) Extract summary table: TauRegionalSummary <- ldply(TauRegional, function(x) return(x$SummaryResults))`
 
 Histograms of the Pearson correlation coefficients between sites, by
 variable, can be obtained from PlotRegionalCor() (Figure 16) and
